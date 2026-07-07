@@ -1,0 +1,4 @@
+[submodule "app/src/main/cpp/acl-libcpputils"]
+	path = app/src/main/cpp/acl-libcpputils
+	url = git@github.com:advancedcompute/acl-libcpputils.git
+	branch = android-support

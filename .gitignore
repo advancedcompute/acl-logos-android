@@ -1,0 +1,152 @@
+
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+
+#######################################
+# Android / Gradle
+#######################################
+
+.gradle/
+**/build/
+
+# Gradle generated files
+gradle-app.setting
+gradle-local.properties
+
+# APKs / AABs
+*.apk
+*.aab
+*.apks
+
+# Android Studio generated files
+.externalNativeBuild/
+.cxx/
+
+
+#######################################
+# Android Studio / IntelliJ
+#######################################
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Local Android SDK configuration
+local.properties
+
+
+#######################################
+# CMake / Native builds
+#######################################
+
+CMakeCache.txt
+CMakeFiles/
+cmake-build-*/
+
+Makefile
+build.ninja
+.ninja_deps
+.ninja_log
+
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+
+
+#######################################
+# Native build output
+#######################################
+
+out/
+output/
+bin/
+lib/
+Debug/
+Release/
+
+
+#######################################
+# C/C++ temporary files
+#######################################
+
+*.tmp
+*.temp
+*.log
+*.d
+*.pch
+
+# Compiler generated dependency files
+*.d
+
+
+#######################################
+# OpenSSL build artifacts
+#######################################
+
+# Ignore OpenSSL source build output
+openssl-*/build/
+openssl-*/Makefile
+openssl-*/configdata.pm
+
+# Generated OpenSSL object files
+crypto/**/*.o
+ssl/**/*.o
+
+
+#######################################
+# OS generated files
+#######################################
+
+# Linux
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+
+#######################################
+# IDE / Editor
+#######################################
+
+.vscode/
+*.swp
+*.swo
+
+
+#######################################
+# Environment / local config
+#######################################
+
+.env
+.env.*
+
+*.local
+
+
+#######################################
+# Test output
+#######################################
+
+Testing/
+CTestTestfile.cmake
+Testing.xml
