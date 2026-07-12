@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Logos</string>
+    <string name="app_db_filename">logos.db</string>
 </resources>
