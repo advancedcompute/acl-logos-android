@@ -38,6 +38,11 @@ class SplashActivity : AppCompatActivity()
             app.filepathRootDir = secureDir.absolutePath
 
             val dbFile = File(app.filepathRootDir, app.dbName)
+
+            //if(dbFile.exists()) {
+            //    dbFile.delete()
+            //}
+
             app.databaseFilepath = dbFile.absolutePath
             app.database = Room.databaseBuilder(applicationContext,
                 AppDatabase::class.java, dbFile.absolutePath
@@ -80,6 +85,6 @@ class SplashActivity : AppCompatActivity()
                 Intent(this, MainActivity::class.java)
             )
             finish()
-        }, 5000)
+        }, 3000)
     }
 }

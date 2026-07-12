@@ -12,7 +12,7 @@ interface IdentityDao {
 
 
     @Query("SELECT * FROM Identity LIMIT 1")
-    fun getIdentity():Identity?
+    fun getIdentity(): Identity?
 
 
 }

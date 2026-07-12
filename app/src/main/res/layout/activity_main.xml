@@ -8,35 +8,55 @@
     android:layout_height="match_parent">
 
     <!-- Main content -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topToolbar"
             android:layout_width="match_parent"
-            android:layout_marginTop="40dp"
             android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:layout_marginTop="15dp"
             app:title="Logos" />
 
-        <FrameLayout
-            android:id="@+id/contentFrame"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/walletContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Wallets"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/bottom_menu" />
+            app:menu="@menu/bottom_menu"/>
 
     </LinearLayout>
 
-    <!-- Left drawer -->
-
+    <!-- Navigation drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"

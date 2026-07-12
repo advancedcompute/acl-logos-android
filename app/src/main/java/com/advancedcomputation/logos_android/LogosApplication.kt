@@ -31,9 +31,11 @@ class LogosApplication: Application(), DefaultLifecycleObserver
 
     override fun onStart(owner: LifecycleOwner) {
         Log.d("APP", "App entered foreground")
+
     }
 
     override fun onStop(owner: LifecycleOwner) {
         Log.d("APP", "App entered background")
+        deviceKey.DestroyKey()
     }
 }
