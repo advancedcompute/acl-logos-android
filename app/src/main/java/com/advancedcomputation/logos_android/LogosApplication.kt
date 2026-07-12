@@ -10,17 +10,17 @@ import com.advancedcomputation.logos_android.db.AppDatabase
 
 class LogosApplication: Application(), DefaultLifecycleObserver
 {
-    public lateinit var database: AppDatabase
-    public lateinit var deviceKey: AsymmetricKey
+    lateinit var database: AppDatabase
+    lateinit var deviceKey: AsymmetricKey
     //lateinit var serviceKeys: Map<String, AsymmetricKey>
     //lateinit var groupKeys: Map<String, AsymmetricKey>
     //lateinit var contactListKeys: Map<String, AsymmetricKey>
 
-    public val dbName: String = "logos.db"
-    public var deviceId: String = ""
-    public var serviceId: String = ""
-    public var filepathRootDir: String = ""
-    public var databaseFilepath: String = ""
+    val dbName: String = "logos.db"
+    var deviceId: String = ""
+    var serviceId: String = ""
+    var filepathRootDir: String = ""
+    var databaseFilepath: String = ""
 
 
     override fun onCreate()

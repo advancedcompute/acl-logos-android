@@ -29,9 +29,7 @@ Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_destroy_1key(JN
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1public_1key_1pem(JNIEnv *env,
-                                                                                       jobject thiz,
-                                                                                       jlong handle)
+Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1public_1key_1pem(JNIEnv *env, jobject thiz, jlong handle)
 {
     auto ptr = reinterpret_cast<cpp::utils::ED25519*>(handle);
     if(ptr)
@@ -39,17 +37,29 @@ Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1public_1ke
         std::string output;
         if(ptr->get_public_key_pem(output))
         {
-            return (jstring)output.c_str();
+            return env->NewStringUTF(output.c_str());
         }
     }
+}
+
+extern "C"
+JNIEXPORT bool JNICALL
+        Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_set_1public_1key_1pem(JNIEnv *env, jobject thiz, jlong handle, jstring pem)
+{
+    auto ptr = reinterpret_cast<cpp::utils::ED25519*>(handle);
+    if(ptr)
+    {
+        const char* chars = env->GetStringUTFChars(pem, nullptr);
+        std::string pemStr(chars);
+        return ptr->set_public_key_pem(pemStr);
+    }
+    return false;
 }
 
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1private_1key_1pem(JNIEnv *env,
-                                                                                        jobject thiz,
-                                                                                        jlong handle)
+Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1private_1key_1pem(JNIEnv *env, jobject thiz, jlong handle, jstring pem)
 {
     auto ptr = reinterpret_cast<cpp::utils::ED25519*>(handle);
     if(ptr)
@@ -57,7 +67,21 @@ Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1private_1k
         std::string output;
         if(ptr->get_private_key_pem(output))
         {
-            return (jstring)output.c_str();
+            return env->NewStringUTF(output.c_str());
         }
     }
+}
+
+extern "C"
+JNIEXPORT bool JNICALL
+        Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_set_1private_1key_1pem(JNIEnv *env, jobject thiz, jlong handle, jstring pem)
+{
+    auto ptr = reinterpret_cast<cpp::utils::ED25519*>(handle);
+    if(ptr)
+    {
+        const char* chars = env->GetStringUTFChars(pem, nullptr);
+        std::string pemStr(chars);
+        return ptr->set_private_key_pem(pemStr);
+    }
+    return false;
 }

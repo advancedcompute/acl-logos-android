@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        System.loadLibrary("native-lib")        // cpputils pulled in via native-lib
+        System.loadLibrary("cpputils_android")
         lifecycleScope.launch(Dispatchers.IO)
         {
             val app = application as LogosApplication
@@ -43,23 +43,34 @@ class SplashActivity : AppCompatActivity()
                 AppDatabase::class.java, dbFile.absolutePath
             ).build()
 
+            //app.database.clearAllTables()
+            app.deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
 
             var existingIdentity: Identity? = app.database.identityDao().getIdentity()
             if(existingIdentity == null)
             {
-                val deviceKey: AsymmetricKey = AsymmetricKey()
-                deviceKey.CreateKey()
+                app.deviceKey = AsymmetricKey()
+                app.deviceKey.CreateKey()
+                app.serviceId = UUID.randomUUID().toString()
 
                 existingIdentity = Identity(
-                    deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
-                    serviceId = UUID.randomUUID().toString(),
-                    publicKey = deviceKey.GetPublicKeyPEM(),
-                    privateKey = deviceKey.GetPrivateKeyPEM(),
+                    deviceId = app.deviceId,
+                    serviceId = app.serviceId,
+                    publicKey = app.deviceKey.GetPublicKeyPEM(),
+                    privateKey = app.deviceKey.GetPrivateKeyPEM(),
                     created = System.currentTimeMillis() / 1000)
                 app.database.identityDao().insert(existingIdentity);
-            }
 
-            Log.i("APP", "Using (deviceId: ${app.deviceId}; serviceId: ${app.serviceId})")
+                Log.i("APP", "Using (deviceId: ${app.deviceId}; serviceId: ${app.serviceId})")
+            } else {
+                app.serviceId = existingIdentity.serviceId
+                app.deviceKey = AsymmetricKey()
+
+                app.deviceKey.CreateKey()       // Temporary easy solution (ignore the fact we are immediately overwriting the key with different values)
+                app.deviceKey.LoadKey(existingIdentity.publicKey, existingIdentity.privateKey)
+
+                Log.i("APP", "Using (deviceId: ${app.deviceId}; serviceId: ${app.serviceId})")
+            }
         }
 
         setContentView(R.layout.activity_splash)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(logos_android)
+project(cpputils_android)
 
 # Bring in cpputils
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/acl-libcpputils)
