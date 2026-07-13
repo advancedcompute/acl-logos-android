@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        loadWallets()
-
         binding.navigationView.setNavigationItemSelectedListener {
 
             when (it.itemId) {
@@ -92,34 +90,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             true
-        }
-    }
-
-
-    private fun loadWallets() {
-
-        val app = application as LogosApplication
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                //displayWallets(wallets)
-            }
-
-            runOnUiThread {
-                binding.walletContainer.removeAllViews()
-                wallets.forEach { wallet ->
-
-                    val row = layoutInflater.inflate(
-                        R.layout.wallet_item,
-                        binding.walletContainer,
-                        false
-                    )
-
-                    row.findViewById<TextView>(R.id.walletName).text = wallet.name
-                    row.findViewById<TextView>(R.id.walletBalance).text = "${wallet.balance} ${wallet.currency}"
-                    binding.walletContainer.addView(row)
-                }
-            }
         }
     }
 }
