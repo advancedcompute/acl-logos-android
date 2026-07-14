@@ -2,3 +2,7 @@
 	path = app/src/main/cpp/acl-libcpputils
 	url = git@github.com:advancedcompute/acl-libcpputils.git
 	branch = android-support
+[submodule "app/src/main/proto/acl-blockchain-proto"]
+	path = app/src/main/proto/acl-blockchain-proto
+	url = git@github.com:advancedcompute/acl-blockchain-proto.git
+	branch = main

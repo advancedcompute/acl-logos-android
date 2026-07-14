@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -45,6 +46,31 @@ android {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.35.1"
+    }
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.75.0"
+        }
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+            task.plugins {
+                create("grpc") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -56,10 +82,15 @@ dependencies {
     implementation(libs.sceneform.base)
 
     implementation(libs.androidx.core.splashscreen)
-    //implementation("androidx.room:room-runtime:2.7.2")
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.process)
     ksp(libs.androidx.room.compiler)
+
+    implementation(libs.grpc.okhttp)
+    implementation(libs.grpc.protobuf.lite)
+    implementation(libs.grpc.stub)
+    implementation("com.google.protobuf:protobuf-javalite:4.35.1")
+    implementation(libs.javax.annotation.api)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -90,11 +90,13 @@ class WalletActivity : AppCompatActivity() {
             .setTitle("Edit Wallet")
             .setView(dialogView)
             .setPositiveButton("Save", null)   // We'll override this
+            .setNeutralButton("Delete", null)
             .setNegativeButton("Cancel", null)
             .create()
 
         dialog.setOnShowListener {
             val createButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            var deleteButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
             createButton.setOnClickListener {
                 val name = nameInput.text.toString().trim()
                 when {
@@ -119,6 +121,19 @@ class WalletActivity : AppCompatActivity() {
                             dialog.dismiss()
                         }
                     }
+                }
+            }
+            deleteButton.setOnClickListener {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        repository.deleteWallet(wallet)
+                    }
+
+                    val wallets = withContext(Dispatchers.IO) {
+                        repository.loadWallets()
+                    }
+                    adapter.updateWallets(wallets)
+                    dialog.dismiss()
                 }
             }
         }
