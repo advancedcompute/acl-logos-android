@@ -40,6 +40,7 @@ Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1public_1ke
             return env->NewStringUTF(output.c_str());
         }
     }
+    return 0L;
 }
 
 extern "C"
@@ -70,6 +71,7 @@ Java_com_advancedcomputation_logos_1android_crypto_AsymmetricKey_get_1private_1k
             return env->NewStringUTF(output.c_str());
         }
     }
+    return env->NewStringUTF("");
 }
 
 extern "C"

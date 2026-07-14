@@ -4,11 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Wallet(
+data class DbVersion(
     @PrimaryKey
     val id: Int = 1,
-    val walletId: String,
-    val name: String,
-    val currency: String,
-    val balance: Double
+    val major: Int = 0,
+    val minor: Int = 0,
+    val patch: Int = 0,
+    val revision: Int = 1,
+    val created: Long
 )

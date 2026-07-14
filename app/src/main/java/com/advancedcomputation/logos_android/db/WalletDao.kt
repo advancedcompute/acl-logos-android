@@ -12,6 +12,9 @@ interface WalletDao
     @Query("SELECT * FROM Wallet")
     fun getWallets(): List<Wallet>
 
+    @Query("SELECT * FROM Wallet WHERE Id = :id")
+    suspend fun getWallet(id: Int): Wallet
+
     @Insert
     fun insert(wallet: Wallet)
 

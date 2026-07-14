@@ -24,7 +24,13 @@
 
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.WalletActivity"
+            android:theme="@style/Theme.Logos"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ui.WalletDetailActivity"
             android:theme="@style/Theme.Logos"
             android:exported="true">
         </activity>
