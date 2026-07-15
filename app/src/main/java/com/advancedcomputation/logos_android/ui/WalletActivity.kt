@@ -15,11 +15,10 @@ import com.advancedcomputation.logos_android.LogosApplication
 import com.advancedcomputation.logos_android.R
 import com.advancedcomputation.logos_android.data.WalletRepository
 import com.advancedcomputation.logos_android.databinding.ActivityWalletBinding
+import com.advancedcomputation.logos_android.db.Identity
 import com.advancedcomputation.logos_android.db.Wallet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.UUID
 
 
 class WalletActivity : AppCompatActivity() {
@@ -28,11 +27,25 @@ class WalletActivity : AppCompatActivity() {
 
     private lateinit var adapter: WalletAdapter
 
-    private lateinit var repository: WalletRepository
-
     private lateinit var viewModel: WalletViewModel
 
     private val MAX_WALLET_NAME_LEN: Int = 30
+
+    private fun validateWalletName(input: EditText): String?
+    {
+        val name = input.text.toString().trim()
+        return when {
+            name.isBlank() -> {
+                input.error = "Please enter a wallet name."
+                null
+            }
+            name.length > MAX_WALLET_NAME_LEN -> {
+                input.error = "Wallet name must be at most $MAX_WALLET_NAME_LEN characters."
+                null
+            }
+            else -> name
+        }
+    }
 
     private fun showCreateWalletDialog()
     {
@@ -49,28 +62,12 @@ class WalletActivity : AppCompatActivity() {
         dialog.setOnShowListener {
             val createButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             createButton.setOnClickListener {
-                val name = input.text.toString().trim()
-                when {
-                    name.isBlank() -> {
-                        input.error = "Please enter a wallet name."
-                    }
-
-                    name.length > MAX_WALLET_NAME_LEN -> {
-                        input.error = "Wallet name must be $MAX_WALLET_NAME_LEN characters or fewer."
-                    }
-
-                    else -> {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                repository.createWallet(name)
-                            }
-
-                            val wallets = withContext(Dispatchers.IO) {
-                                repository.loadWallets()
-                            }
-                            adapter.updateWallets(wallets)
-                            dialog.dismiss()
-                        }
+                val validationResponse = validateWalletName(input)
+                if(!validationResponse.isNullOrEmpty())
+                {
+                    lifecycleScope.launch {
+                        viewModel.createWallet(validationResponse)
+                        dialog.dismiss()
                     }
                 }
             }
@@ -98,41 +95,18 @@ class WalletActivity : AppCompatActivity() {
             val createButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             var deleteButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
             createButton.setOnClickListener {
-                val name = nameInput.text.toString().trim()
-                when {
-                    name.isBlank() -> {
-                        nameInput.error = "Please enter a wallet name."
-                    }
-
-                    name.length > MAX_WALLET_NAME_LEN -> {
-                        nameInput.error = "Wallet name must be $MAX_WALLET_NAME_LEN characters or fewer."
-                    }
-
-                    else -> {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                repository.updateWallet(wallet, name)
-                            }
-
-                            val wallets = withContext(Dispatchers.IO) {
-                                repository.loadWallets()
-                            }
-                            adapter.updateWallets(wallets)
-                            dialog.dismiss()
-                        }
+                val validationResponse = validateWalletName(nameInput)
+                if(!validationResponse.isNullOrEmpty())
+                {
+                    lifecycleScope.launch {
+                        viewModel.updateWallet(wallet, validationResponse)
+                        dialog.dismiss()
                     }
                 }
             }
             deleteButton.setOnClickListener {
                 lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        repository.deleteWallet(wallet)
-                    }
-
-                    val wallets = withContext(Dispatchers.IO) {
-                        repository.loadWallets()
-                    }
-                    adapter.updateWallets(wallets)
+                    viewModel.deleteWallet(wallet)
                     dialog.dismiss()
                 }
             }
@@ -157,6 +131,35 @@ class WalletActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupDrawer() {
+        setSupportActionBar(binding.topToolbar)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            binding.topToolbar,
+            R.string.app_name,
+            R.string.app_name
+        )
+
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        binding.navigationView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.menu_profile -> {
+                    val intent = Intent(this, IdentityActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_security -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                R.id.menu_transactions -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                R.id.menu_settings -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                R.id.menu_about -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+            }
+            binding.drawerLayout.closeDrawers()
+            true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -171,41 +174,29 @@ class WalletActivity : AppCompatActivity() {
             { wallet -> openWallet(wallet) },
             { wallet -> showWalletOptionsDialog(wallet) })
 
-        binding.walletRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.walletRecyclerView.adapter = adapter
+        binding.walletRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@WalletActivity)
+            adapter = this@WalletActivity.adapter
+        }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            repository = WalletRepository((application as LogosApplication).database.walletDao())
-            viewModel = WalletViewModel(repository)
+            val repository = WalletRepository(app.database.walletDao())
+            viewModel = WalletViewModelFactory(repository).create(WalletViewModel::class.java)
+            viewModel.loadWallets()
         }
-
         observeWallets()
-        viewModel.loadWallets()
         binding.addWalletButton.setOnClickListener { showCreateWalletDialog() }
 
-        setSupportActionBar(binding.topToolbar)
-        val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.topToolbar, R.string.app_name, R.string.app_name)
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        setupDrawer()
 
-        binding.navigationView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_profile -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
-                R.id.menu_security -> Toast.makeText(this, "Security", Toast.LENGTH_SHORT).show()
-                R.id.menu_transactions -> Toast.makeText(this, "Transactions", Toast.LENGTH_SHORT).show()
-                R.id.menu_settings -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
-                R.id.menu_about -> Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
-            }
-            binding.drawerLayout.closeDrawers()
-            true
-        }
-
+        /*
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_wallet -> Toast.makeText(this, "Wallet", Toast.LENGTH_SHORT).show()
             }
             true
         }
+         */
     }
 
 

@@ -1,7 +1,10 @@
+import com.google.protobuf.gradle.proto
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.json.serializer)
 }
 
 android {
@@ -11,7 +14,6 @@ android {
             minorApiLevel = 1
         }
     }
-
     defaultConfig {
         applicationId = "com.advancedcomputation.logos_android"
         minSdk = 24
@@ -21,7 +23,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -43,6 +44,13 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    sourceSets {
+        named("main") {
+            proto {
+                srcDir("src/main/proto/acl-blockchain-proto")
+            }
+        }
     }
 }
 
@@ -89,8 +97,9 @@ dependencies {
     implementation(libs.grpc.okhttp)
     implementation(libs.grpc.protobuf.lite)
     implementation(libs.grpc.stub)
-    implementation("com.google.protobuf:protobuf-javalite:4.35.1")
     implementation(libs.javax.annotation.api)
+    implementation("com.google.protobuf:protobuf-javalite:4.35.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -13,6 +13,7 @@ appcompat = "1.7.1"
 material = "1.14.0"
 constraintlayout = "2.2.1"
 navigationCompose = "2.9.8"
+protobufJavalite = "4.35.1"
 runtime = "1.11.4"
 ui = "1.11.4"
 sceneformBase = "1.17.1"
@@ -23,6 +24,7 @@ room = "2.8.4"
 lifecycleProcess = "2.11.0"
 protobuf = "0.10.0"
 grpc = "1.82.2"
+json-serializer = "2.4.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,11 +32,8 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-material3 = { module = "androidx.compose.material3:material3", version = "1.4.0" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcStub" }
-grpc-okhttp-v1750 = { module = "io.grpc:grpc-okhttp", version.ref = "grpcOkhttp" }
 grpc-protobuf-lite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpcStub" }
-grpc-protobuf-lite-v1750 = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpcProtobufLite" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpcStub" }
-grpc-stub-v1750 = { module = "io.grpc:grpc-stub", version.ref = "grpcStubVersion" }
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotationApi" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -46,11 +45,13 @@ androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", versi
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
 sceneform-base = { group = "com.google.ar.sceneform", name = "sceneform-base", version.ref = "sceneformBase" }
 androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
+json-serializer = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "json-serializer" }

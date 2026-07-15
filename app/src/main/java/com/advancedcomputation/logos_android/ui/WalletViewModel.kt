@@ -1,6 +1,7 @@
 package com.advancedcomputation.logos_android.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.advancedcomputation.logos_android.data.WalletRepository
 import com.advancedcomputation.logos_android.db.Wallet
@@ -9,6 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+class WalletViewModelFactory(private val repository: WalletRepository) : ViewModelProvider.Factory
+{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return WalletViewModel(repository) as T
+    }
+}
 
 
 class WalletViewModel(private val repository: WalletRepository) : ViewModel()

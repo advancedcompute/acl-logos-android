@@ -10,10 +10,8 @@ class WalletRepository(private val walletDao: WalletDao)
 
     suspend fun createWallet(walletName: String, walletCurrency: String = "ACL")
     {
-        wallets = walletDao.getWallets()
         walletDao.insert(
             Wallet(
-                id = wallets.size + 1,
                 walletId = UUID.randomUUID().toString(),
                 name = walletName,
                 currency = walletCurrency,

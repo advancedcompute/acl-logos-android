@@ -11,7 +11,9 @@ import com.advancedcomputation.logos_android.LogosApplication
 import com.advancedcomputation.logos_android.R
 import com.advancedcomputation.logos_android.db.Wallet
 
-class WalletAdapter(private var wallets: List<Wallet>, private val onWalletClicked: (Wallet) -> Unit, private val onWalletMenuClicked: (Wallet) -> Unit) :
+class WalletAdapter(private var wallets: List<Wallet>,
+                    private val onWalletClicked: (Wallet) -> Unit,
+                    private val onWalletMenuClicked: (Wallet) -> Unit) :
     RecyclerView.Adapter<WalletAdapter.ViewHolder>()
 {
 

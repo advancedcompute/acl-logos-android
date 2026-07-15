@@ -30,9 +30,9 @@ class SplashActivity : AppCompatActivity()
         }
         app.filepathRootDir = secureDir.absolutePath
         val dbFile = File(app.filepathRootDir, app.dbName)
-        //if(dbFile.exists()) {
-        //    dbFile.delete()
-        //}
+        if(dbFile.exists()) {
+            dbFile.delete()
+        }
 
         app.databaseFilepath = dbFile.absolutePath
         app.database = Room.databaseBuilder(applicationContext,
@@ -53,7 +53,10 @@ class SplashActivity : AppCompatActivity()
                 serviceId = app.serviceId,
                 publicKey = app.deviceKey.GetPublicKeyPEM(),
                 privateKey = app.deviceKey.GetPrivateKeyPEM(),
-                created = System.currentTimeMillis() / 1000)
+                created = System.currentTimeMillis() / 1000,
+                name = "",
+                email = "",
+                verified = false)
             app.database.identityDao().insert(existingIdentity);
 
             Log.i("APP", "Using (deviceId: ${app.deviceId}; serviceId: ${app.serviceId})")

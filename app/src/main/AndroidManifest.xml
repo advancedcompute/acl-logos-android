@@ -35,6 +35,12 @@
             android:exported="true">
         </activity>
 
+        <activity
+            android:name=".ui.IdentityActivity"
+            android:theme="@style/Theme.Logos"
+            android:exported="true">
+        </activity>
+
 
     </application>
 

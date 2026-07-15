@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Wallet(
-    @PrimaryKey
-    val id: Int = 1,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val walletId: String,
     val name: String,
     val currency: String,
