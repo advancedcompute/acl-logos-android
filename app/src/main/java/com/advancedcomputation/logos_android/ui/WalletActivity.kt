@@ -196,7 +196,7 @@ class WalletActivity : AppCompatActivity() {
             }
             true
         }
-         */
+        */
     }
 
 

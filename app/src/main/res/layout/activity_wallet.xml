@@ -17,6 +17,7 @@
             android:id="@+id/topToolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
+            android:padding="10dp"
             android:elevation="4dp"
             app:title="Logos"
             app:layout_constraintTop_toTopOf="parent"
@@ -88,6 +89,7 @@
                 android:id="@+id/sendButton"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
+                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Send"
@@ -101,6 +103,7 @@
                 android:id="@+id/receiveButton"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
+                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Receive"
@@ -115,7 +118,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -148,17 +150,18 @@
             android:id="@+id/walletRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingTop="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
             android:clipToPadding="false"
             app:layout_constraintTop_toBottomOf="@id/walletHeader"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- Bottom Navigation -->
-
+        <!--
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="0dp"
@@ -167,11 +170,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
+        -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Navigation Drawer -->
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"
